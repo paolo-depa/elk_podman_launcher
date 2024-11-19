@@ -41,7 +41,15 @@ if [ "$current_max_map_count" -lt "$EL_MAXMAP_COUNT" ]; then
 fi
 
 # Run the Elasticsearch container with a memory limit of 1GB
+containers=$(podman ps -a --format "{{.Names}}")
+if echo "$containers" | grep -w $PODMAN_EL_NAME > /dev/null; then
+    podman rm -f $PODMAN_EL_NAME
+fi
 podman run --name $PODMAN_EL_NAME --net $PODMAN_NET -p 9200:9200 -it -m 1GB docker.elastic.co/elasticsearch/elasticsearch:$EL_VERSION
+
+if echo "$containers" | grep -w $PODMAN_KIBANA_NAME > /dev/null; then
+    podman rm -f $PODMAN_KIBANA_NAME
+fi
 podman run --name $PODMAN_KIBANA_NAME --net $PODMAN_NET -p 5601:5601 docker.elastic.co/kibana/kibana:$EL_VERSION
 
 podman exec -it $PODMAN_EL_NAME /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic
