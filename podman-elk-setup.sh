@@ -19,13 +19,7 @@
 # 6. Reset the password for the 'elastic' user in Elasticsearch.
 # 7. Create an enrollment token for Kibana to connect to Elasticsearch.
 
-PODMAN_NET="elastic"
-PODMAN_EL_VOL="es01_vol"
-PODMAN_EL_NAME="es01"
-PODMAN_KIBANA_NAME="kib01"
-
-EL_MAXMAP_COUNT=262144
-EL_VERSION="8.16.0"
+source podman-elk-setup.conf
 
 if ! podman network exists $PODMAN_NET; then
     podman network create $PODMAN_NET
