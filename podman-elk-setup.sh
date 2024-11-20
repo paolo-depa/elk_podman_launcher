@@ -53,7 +53,7 @@ fi
 podman run -d --name $PODMAN_KIBANA_NAME --net $PODMAN_NET -p 5601:5601 docker.elastic.co/kibana/kibana:$EL_VERSION >> /dev/null
 echo "Kibana started"
 echo
-echo "Run: podman exec $PODMAN_EL_NAME -it /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic"
+echo "Run: podman exec -it $PODMAN_EL_NAME /usr/share/elasticsearch/bin/elasticsearch-reset-password -u elastic"
 echo "Then: podman exec $PODMAN_EL_NAME /usr/share/elasticsearch/bin/elasticsearch-create-enrollment-token -s kibana"
 echo "And: podman exec $PODMAN_KIBANA_NAME bin/kibana-verification-code"
 echo
